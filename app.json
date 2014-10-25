@@ -1,0 +1,11 @@
+{
+  "name": "KeystoneJS Starter Site",
+  "description": "A barebones KeystoneJS Site to use as a platform for bigger and better things!",
+  "repository": "https://github.com/JedWatson/keystone-starter",
+  "logo": "http://keystonejs.com/images/logo.svg",
+  "keywords": ["node", "express", "keystonejs", "mongodb" ],
+  "success_url": "/welcome",
+  "addons": [
+    "mongolab:shared-single-small"
+  ]
+}
