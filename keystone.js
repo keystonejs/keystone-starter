@@ -4,19 +4,16 @@ require('dotenv').load();
 
 // Require keystone
 var keystone = require('keystone');
-	
 
 // Initialise Keystone with your project's configuration.
 // See http://keystonejs.com/guide/config for available options
 // and documentation.
-
 
 keystone.init({
 
 	'name': 'KeystoneJS',
 	'brand': 'KeystoneJS',
 
-	
 	'less': 'public',
 	
 	'static': 'public',
@@ -29,10 +26,13 @@ keystone.init({
 	'auto update': true,
 	'session': true,
 	'auth': true,
-	'user model': 'User',
-	'cookie secret': 'z5&uz%mQsW+^+Z4=piaBI[%FNMV>M?)/$L#>Fs]Tup!QSifG)%Z]<SUgneB1z@DP'
-
+	'user model': 'User'
+	
 });
+
+// Your cookie secret is used to secure session cookies.
+// MAKE SURE YOU CHANGE THIS TO SOMETHING PRIVATE AND SECURE!
+keystone.set('cookie secret', '----change-me-to-something-secret----');
 
 // Load your project's Models
 
