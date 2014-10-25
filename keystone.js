@@ -13,6 +13,7 @@ keystone.init({
 
 	'name': 'KeystoneJS',
 	'brand': 'KeystoneJS',
+	'mongo': process.env.MONGOLAB_URI,
 
 	'less': 'public',
 	
