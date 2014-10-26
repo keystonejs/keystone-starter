@@ -61,8 +61,15 @@ keystone.set('routes', require('./routes'));
 // Setup common locals for your emails. The following are required by Keystone's
 // default email templates, you may remove them if you're using your own.
 
+// You should ensure you have the EMAIL_HOSTNAME environment variable set on
+// your production / staging servers, or images and links in your emails will 
+// default to http://localhost:3000.
+
+var email_hostname = process.env.EMAIL_HOSTNAME || 'localhost:3000';
+
 keystone.set('email locals', {
-	logo_src: '/images/logo-email.gif',
+	server: 'http://' + email_hostname,
+	logo_src: 'http://' + email_hostname + '/images/logo-email.gif',
 	logo_width: 194,
 	logo_height: 76,
 	theme: {
@@ -75,20 +82,6 @@ keystone.set('email locals', {
 		}
 	}
 });
-
-// Setup replacement rules for emails, to automate the handling of differences
-// between development a production.
-
-// Be sure to update this rule to include your site's actual domain, and add
-// other rules your email templates require.
-
-keystone.set('email rules', [{
-	find: '/images/',
-	replace: (keystone.get('env') == 'production') ? 'http://www.your-server.com/images/' : 'http://localhost:3000/images/'
-}, {
-	find: '/keystone/',
-	replace: (keystone.get('env') == 'production') ? 'http://www.your-server.com/keystone/' : 'http://localhost:3000/keystone/'
-}]);
 
 // Load your project's email test routes
 

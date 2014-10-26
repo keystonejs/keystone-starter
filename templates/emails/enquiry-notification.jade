@@ -21,4 +21,4 @@ block body-contents
 		.text-larger !{enquiry.message.html}
 	p.text-muted Sent #{enquiry._.createdAt.format()}
 	p &nbsp;
-	+button({ url: '/keystone/enquiries/' + enquiry.id, label: 'Open Keystone' })
+	+button({ url: server + '/keystone/enquiries/' + enquiry.id, label: 'Open Keystone' })
