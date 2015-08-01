@@ -31,7 +31,6 @@
    "addons": [
     "mongolab:sandbox",
     "cloudinary:starter",
-    "mandrill:starter",
     "papertrail:choklad"
   ]
 }

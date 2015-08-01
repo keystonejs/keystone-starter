@@ -36,13 +36,16 @@ Enquiry.schema.post('save', function() {
 });
 
 Enquiry.schema.methods.sendNotificationEmail = function(callback) {
-	
+
 	var enqiury = this;
-	
+
 	keystone.list('User').model.find().where('isAdmin', true).exec(function(err, admins) {
-		
+
 		if (err) return callback(err);
-		
+
+		// Email sending is disabled by default now that mandrill doesn't offer
+		// a free account tier on heroku.
+		/*
 		new keystone.Email('enquiry-notification').send({
 			to: admins,
 			from: {
@@ -52,9 +55,10 @@ Enquiry.schema.methods.sendNotificationEmail = function(callback) {
 			subject: 'New Enquiry for KeystoneJS',
 			enquiry: enqiury
 		}, callback);
-		
+		*/
+
 	});
-	
+
 };
 
 Enquiry.defaultSort = '-createdAt';
