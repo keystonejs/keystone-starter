@@ -8,7 +8,7 @@ var Types = keystone.Field.Types;
 
 var Enquiry = new keystone.List('Enquiry', {
 	nocreate: true,
-	noedit: true
+	noedit: true,
 });
 
 Enquiry.add({
@@ -16,49 +16,58 @@ Enquiry.add({
 	email: { type: Types.Email, required: true },
 	phone: { type: String },
 	enquiryType: { type: Types.Select, options: [
-		{ value: 'message', label: "Just leaving a message" },
-		{ value: 'question', label: "I've got a question" },
-		{ value: 'other', label: "Something else..." }
+		{ value: 'message', label: 'Just leaving a message' },
+		{ value: 'question', label: 'I\'ve got a question' },
+		{ value: 'other', label: 'Something else...' },
 	] },
 	message: { type: Types.Markdown, required: true },
-	createdAt: { type: Date, default: Date.now }
+	createdAt: { type: Date, default: Date.now },
 });
 
-Enquiry.schema.pre('save', function(next) {
+Enquiry.schema.pre('save', function (next) {
 	this.wasNew = this.isNew;
 	next();
 });
 
-Enquiry.schema.post('save', function() {
+Enquiry.schema.post('save', function () {
 	if (this.wasNew) {
 		this.sendNotificationEmail();
 	}
 });
 
-Enquiry.schema.methods.sendNotificationEmail = function(callback) {
+Enquiry.schema.methods.sendNotificationEmail = function (callback) {
+	if (typeof callback !== 'function') {
+		callback = function (err) {
+			if (err) {
+				console.error('There was an error sending the notification email:', err);
+			}
+		};
+	}
 
-	var enqiury = this;
+	if (!process.env.MAILGUN_API_KEY || !process.env.MAILGUN_DOMAIN) {
+		console.log('Unable to send email - no mailgun credentials provided');
+		return callback(new Error('could not find mailgun credentials'));
+	}
 
-	keystone.list('User').model.find().where('isAdmin', true).exec(function(err, admins) {
+	var enquiry = this;
+	var brand = keystone.get('brand');
 
+	keystone.list('User').model.find().where('isAdmin', true).exec(function (err, admins) {
 		if (err) return callback(err);
-
-		// Email sending is disabled by default now that mandrill doesn't offer
-		// a free account tier on heroku.
-		/*
-		new keystone.Email('enquiry-notification').send({
+		new keystone.Email({
+			templateName: 'enquiry-notification',
+			transport: 'mailgun',
+		}).send({
 			to: admins,
 			from: {
-				name: 'KeystoneJS',
-				email: 'contact@keystonejs.com'
+				name: 'keystone-starter',
+				email: 'contact@keystone-starter.com',
 			},
-			subject: 'New Enquiry for KeystoneJS',
-			enquiry: enqiury
+			subject: 'New Enquiry for keystone-starter',
+			enquiry: enquiry,
+			brand: brand,
 		}, callback);
-		*/
-
 	});
-
 };
 
 Enquiry.defaultSort = '-createdAt';
