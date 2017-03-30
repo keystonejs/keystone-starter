@@ -1,7 +1,7 @@
 Keystone Starter
 ================
 
-[![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy?template=https://github.com/JedWatson/keystone-starter)
+[![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy?template=https://github.com/keystonejs/keystone-starter)
 
 This is a starter project for [KeystoneJS](http://keystonejs.com) set up with clean templates and sensible defaults that can be immediately deployed to [Heroku](https://www.heroku.com) (or anywhere else).
 
